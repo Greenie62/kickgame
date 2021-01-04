@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="home.css">
+<title>Welcome to the Game Player! 🏈</title>
+</head>
+<body>
+<header class="joinHeader">
+<h1 class="joinh1">Football Field Goal</h1>
+<h1 class="joinh1two">KICK GAME</h1>
+</header>
+<div class="playerInfo">
+    <h5>Name:<span class='playername'></span></h5>
+    <h5>Token:<span class='token'></span></h5>
+</div>
+<div class="joinContainer">
+    <button class="playBtn">Play</button>
+    <button class="kickBtn">Kick</button>
+
+    <div class="fieldGoalPost">
+        <div class="sky">
+            <div class="caption"></div>
+            <div class="score"></div>
+        </div>
+        <div class="fieldGoal">
+         <div class="mainPost"></div>
+        <div class="crossBar">
+            <div class="beam beam1"></div>
+            <div class="beam beam2"></div>
+        </div> 
+        <div class="football">
+            <div class="line">
+                <div class="cross"></div>
+                <div class="cross"></div>
+                <div class="cross"></div>
+                <div class="cross"></div>
+            </div>
+        </div>
+    </div> 
+
+        <div class="field"></div>
+
+    </div>
+</div>
+
+<footer>
+<p>Footer&copy;</p>
+</footer>
+
+<script>
+
+    var playBtn = document.querySelector(".playBtn");
+    var beamOne = document.querySelector(".beam1");
+    var beamTwo = document.querySelector(".beam2");
+    var playernameDOM = document.querySelector(".playername");
+    var tokenDOM = document.querySelector(".token");
+    var kickBtn = document.querySelector(".kickBtn");
+    var football = document.querySelector(".football");
+    var captionDOM = document.querySelector(".caption");
+    var scoreDOM = document.querySelector(".score");
+    var hasStarted = false;
+    let score = 0;
+    let kickInterval;
+
+    var beamOneRect = beamOne.getBoundingClientRect()
+    var beamTwoRect = beamTwo.getBoundingClientRect()
+
+
+    scoreDOM.innerHTML = `Score:${score}`
+
+
+    if(!localStorage.token){
+        console.log("get outta here buddy!")
+        window.location.pathname="/signin"
+    }
+    else{
+        fetch("/getprofile",{
+            headers:{
+                'authorization':`Bearer ${localStorage.token}`
+            }
+        })
+        .then(res=>res.json())
+        .then(res=>{
+            console.log(res)
+            playernameDOM.innerHTML = res.profile.username;
+            tokenDOM.innerHTML = res.token
+        })
+    }
+
+
+
+    playBtn.onclick=()=>{kickInterval = setInterval(startKick,50)}
+
+        
+
+
+    let dir=15;
+
+    function startKick(){
+        let left = parseInt(window.getComputedStyle(football).getPropertyValue('left'));
+
+        console.log(left)
+        left+=dir
+        if(left > 140 || left < 0){
+            dir *= -1
+        }
+  
+        football.style.left=`${left}px`
+
+      
+    }
+
+
+
+    kickBtn.onclick=kickBall
+
+
+    function kickBall(){
+        console.log("kickball");
+
+        clearInterval(kickInterval)
+        let leftPost = window.getComputedStyle(beamOne).getPropertyValue('left');
+        let leftPostTwo = window.getComputedStyle(beamTwo).getPropertyValue('left');
+
+        console.log(leftPost)
+        football.classList.add('kickball')
+
+        setTimeout(()=>{
+            football.classList.remove('kickball')
+        },3000)
+       
+
+
+        var footballRect = football.getBoundingClientRect()
+        console.log(footballRect)
+
+
+if(footballRect.x > beamOneRect.x && footballRect.x < beamTwoRect.x-15){
+    console.log("its good!!!")
+    showCaption("Its good!!!")
+    score+=10;
+    scoreDOM.innerHTML = `Score:${score}`
+}
+else{
+    console.log("lousy!!!")
+    showCaption("Lousy kick!!")
+}
+    }
+
+
+   function showCaption(str){
+        captionDOM.innerHTML = str;
+        setTimeout(()=>{
+            captionDOM.innerHTML = ""
+        },2000)
+    }
+
+
+
+
+</script>
+</body>
+</html>
