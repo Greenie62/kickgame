@@ -1,165 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="home.css">
-<title>Welcome to the Game Player! 🏈</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+    <title>Field Goal Game</title>
 </head>
 <body>
-<header class="joinHeader">
-<h1 class="joinh1">Football Field Goal</h1>
-<h1 class="joinh1two">KICK GAME</h1>
-</header>
-<!-- <div class="playerInfo">
-    <h5>Name:<span class='playername'></span></h5>
-    <h5>Token:<span class='token'></span></h5>
-</div> -->
-<div class="joinContainer">
-    <button class="playBtn">Play</button>
-    <button class="kickBtn">Kick</button>
-
-    <div class="fieldGoalPost">
-        <div class="sky">
-            <div class="caption"></div>
-            <div class="score"></div>
-        </div>
-        <div class="fieldGoal">
-         <div class="mainPost"></div>
-        <div class="crossBar">
-            <div class="beam beam1"></div>
-            <div class="beam beam2"></div>
-        </div> 
-        <div class="football">
-            <div class="line">
-                <div class="cross"></div>
-                <div class="cross"></div>
-                <div class="cross"></div>
-                <div class="cross"></div>
+    <header>
+        <h1>4th and...bring in the Kicker!</h1>
+        <div class="footballHeader">
+            <div class="seamHeader">
+                <div class="stichHeader"></div>
+                <div class="stichHeader"></div>
+                <div class="stichHeader"></div>
+                <div class="stichHeader"></div>
+                <div class="stichHeader"></div>
             </div>
         </div>
-    </div> 
+    </header>
 
+<div class="fieldContainer">
+    <div class="gameScreen">
+        <div class="buttonsRow">
+            <!-- <select placeholder="yard_line" id="movekick" class="scaleSelect"></select> -->
+            <button class="spotBtn">Snap</button>
+            <button class="kickBtn">Kick</button>
+        </div>
+        <div class="sky">
+            <h5 class="caption"></h5>
+            <div class="scoreBox">
+                    <div class="scoreBoard">
+                        <div class="scoreCard">
+                            <h5>Home</h5>
+                            <h5 class="score"></h5>
+                        </div>
+                        <div class="scoreCard">
+                            <h5>Away</h5>
+                            <h5 class="oppscore">17</h5>
+                        </div>
+                    </div>
+           </div>
+        </div>
+       
+        <div class="stadium"></div>
         <div class="field"></div>
+        <!-- <div class="endzone"></div> -->
 
     </div>
+
+    <div class="fieldGoal">
+        <div class="beam">
+            <div class="beamOne"></div>
+            <div class="beamTwo"></div>
+        </div>
+        <div class="mainPost"></div>
+    </div>
+
+    <div class="football">
+        <div class="seam"></div>
+    </div>
+
 </div>
 
-<footer>
-<p>Footer&copy;</p>
-</footer>
-
-<script>
-
-    var playBtn = document.querySelector(".playBtn");
-    var beamOne = document.querySelector(".beam1");
-    var beamTwo = document.querySelector(".beam2");
-    var playernameDOM = document.querySelector(".playername");
-    var tokenDOM = document.querySelector(".token");
-    var kickBtn = document.querySelector(".kickBtn");
-    var football = document.querySelector(".football");
-    var captionDOM = document.querySelector(".caption");
-    var scoreDOM = document.querySelector(".score");
-    var hasStarted = false;
-    let score = 0;
-    let kickInterval;
-
-    var beamOneRect = beamOne.getBoundingClientRect()
-    var beamTwoRect = beamTwo.getBoundingClientRect()
 
 
-    scoreDOM.innerHTML = `Score:${score}`
+    <footer>
+        <p>Footer&copy;</p>
+        <small class="text-muted"><i class='fab fa-js'></i> Games</small>
+    </footer>
 
-
-    // if(!localStorage.token){
-    //     console.log("get outta here buddy!")
-    //     window.location.pathname="/signin"
-    // }
-    // else{
-    //     fetch("/getprofile",{
-    //         headers:{
-    //             'authorization':`Bearer ${localStorage.token}`
-    //         }
-    //     })
-    //     .then(res=>res.json())
-    //     .then(res=>{
-    //         console.log(res)
-    //         playernameDOM.innerHTML = res.profile.username;
-    //         tokenDOM.innerHTML = res.token
-    //     })
-    // }
-
-
-
-    playBtn.onclick=()=>{kickInterval = setInterval(startKick,50)}
-
-        
-
-
-    let dir=15;
-
-    function startKick(){
-        let left = parseInt(window.getComputedStyle(football).getPropertyValue('left'));
-
-        console.log(left)
-        left+=dir
-        if(left > 140 || left < 0){
-            dir *= -1
-        }
-  
-        football.style.left=`${left}px`
-
-      
-    }
-
-
-
-    kickBtn.onclick=kickBall
-
-
-    function kickBall(){
-        console.log("kickball");
-
-        clearInterval(kickInterval)
-        let leftPost = window.getComputedStyle(beamOne).getPropertyValue('left');
-        let leftPostTwo = window.getComputedStyle(beamTwo).getPropertyValue('left');
-
-        console.log(leftPost)
-        football.classList.add('kickball')
-
-        setTimeout(()=>{
-            football.classList.remove('kickball')
-        },3000)
-       
-
-
-        var footballRect = football.getBoundingClientRect()
-        console.log(footballRect)
-
-
-if(footballRect.x > beamOneRect.x && footballRect.x < beamTwoRect.x-15){
-    console.log("its good!!!")
-    showCaption("Its good!!!")
-    score+=10;
-    scoreDOM.innerHTML = `Score:${score}`
-}
-else{
-    console.log("lousy!!!")
-    showCaption("Lousy kick!!")
-}
-    }
-
-
-   function showCaption(str){
-        captionDOM.innerHTML = str;
-        setTimeout(()=>{
-            captionDOM.innerHTML = ""
-        },2000)
-    }
-
-
-
-
-</script>
+    <script src="script.js"></script>
 </body>
 </html>
