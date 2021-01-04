@@ -11,10 +11,10 @@
 <h1 class="joinh1">Football Field Goal</h1>
 <h1 class="joinh1two">KICK GAME</h1>
 </header>
-<div class="playerInfo">
+<!-- <div class="playerInfo">
     <h5>Name:<span class='playername'></span></h5>
     <h5>Token:<span class='token'></span></h5>
-</div>
+</div> -->
 <div class="joinContainer">
     <button class="playBtn">Play</button>
     <button class="kickBtn">Kick</button>
@@ -71,23 +71,23 @@
     scoreDOM.innerHTML = `Score:${score}`
 
 
-    if(!localStorage.token){
-        console.log("get outta here buddy!")
-        window.location.pathname="/signin"
-    }
-    else{
-        fetch("/getprofile",{
-            headers:{
-                'authorization':`Bearer ${localStorage.token}`
-            }
-        })
-        .then(res=>res.json())
-        .then(res=>{
-            console.log(res)
-            playernameDOM.innerHTML = res.profile.username;
-            tokenDOM.innerHTML = res.token
-        })
-    }
+    // if(!localStorage.token){
+    //     console.log("get outta here buddy!")
+    //     window.location.pathname="/signin"
+    // }
+    // else{
+    //     fetch("/getprofile",{
+    //         headers:{
+    //             'authorization':`Bearer ${localStorage.token}`
+    //         }
+    //     })
+    //     .then(res=>res.json())
+    //     .then(res=>{
+    //         console.log(res)
+    //         playernameDOM.innerHTML = res.profile.username;
+    //         tokenDOM.innerHTML = res.token
+    //     })
+    // }
 
 
 
